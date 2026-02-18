@@ -91,6 +91,11 @@ model_artifacts = load_model()
 explanation = explain_prediction(input_data, model_artifacts, top_n=10)
 ```
 
+
+## 🌍 Deployment
+
+For detailed instructions on deploying this application to Render (recommended), please refer to [DEPLOYMENT.md](DEPLOYMENT.md).
+
 ## 📊 Features
 
 ### Data Preprocessing
