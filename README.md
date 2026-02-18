@@ -2,7 +2,10 @@
 
 A production-ready machine learning system for predicting daily food waste in hostel cafeterias.
 
-## 📁 Project Structure
+## � Live Demo
+Experience the application live: [**Food Waste Prediction System**](https://food-waste-prediction-rakh.onrender.com)
+
+## �📁 Project Structure
 
 ```
 reckon/
