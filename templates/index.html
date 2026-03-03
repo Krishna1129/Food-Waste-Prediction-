@@ -10,6 +10,151 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
+    <style>
+        /* ── Tab Navigation ───────────────────────────────── */
+        .tab-nav {
+            display: flex;
+            gap: .5rem;
+            background: rgba(255, 255, 255, .05);
+            border: 1px solid rgba(255, 255, 255, .12);
+            border-radius: 16px;
+            padding: .4rem;
+            margin: 1.5rem auto 2rem;
+            max-width: 520px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: .7rem 1rem;
+            border: none;
+            border-radius: 12px;
+            background: transparent;
+            color: rgba(255, 255, 255, .55);
+            font-size: .95rem;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all .25s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: .45rem;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(99, 102, 241, .4);
+        }
+
+        .tab-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, .08);
+            color: rgba(255, 255, 255, .85);
+        }
+
+        .tab-section {
+            display: none;
+        }
+
+        .tab-section.active {
+            display: block;
+            animation: fadeIn .3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ── Dish Result Cards ────────────────────────────── */
+        .dish-card {
+            background: rgba(255, 255, 255, .06);
+            border: 1px solid rgba(255, 255, 255, .12);
+            border-radius: 16px;
+            padding: 1.25rem 1.4rem;
+            margin-bottom: 1rem;
+            transition: transform .2s, box-shadow .2s;
+        }
+
+        .dish-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, .25);
+        }
+
+        .dish-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .7rem;
+            font-size: .82rem;
+            opacity: .78;
+            margin-top: .8rem;
+        }
+
+        .score-bar-wrap {
+            margin-top: 1rem;
+            display: grid;
+            gap: .5rem;
+        }
+
+        .score-bar-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: .78rem;
+            margin-bottom: .2rem;
+        }
+
+        .score-bar-track {
+            background: rgba(255, 255, 255, .1);
+            border-radius: 99px;
+            height: 7px;
+            overflow: hidden;
+        }
+
+        .score-bar-fill {
+            height: 100%;
+            border-radius: 99px;
+            transition: width .8s ease;
+        }
+
+        /* ── Inventory textarea ───────────────────────────── */
+        #inventoryInput {
+            width: 100%;
+            padding: .9rem 1rem;
+            border-radius: 12px;
+            border: 1.5px solid rgba(255, 255, 255, .15);
+            background: rgba(255, 255, 255, .07);
+            color: inherit;
+            font-family: monospace;
+            font-size: .9rem;
+            resize: vertical;
+            outline: none;
+            transition: border .2s;
+            box-sizing: border-box;
+        }
+
+        #inventoryInput:focus {
+            border-color: rgba(99, 102, 241, .7);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -20,8 +165,8 @@
         <header class="header">
             <div class="header-content">
                 <div class="header-icon">🍽️</div>
-                <h1>Smart Food Waste Prediction</h1>
-                <p class="subtitle">AI-Powered Meal Demand Forecasting for Hostels & Restaurants</p>
+                <h1>Smart Food Waste System</h1>
+                <p class="subtitle">AI-Powered Meal Demand Forecasting &amp; Dish Recommendation</p>
                 <div class="header-stats">
                     <div class="stat-item">
                         <span class="stat-value">ML</span>
@@ -32,209 +177,327 @@
                         <span class="stat-label">Accuracy</span>
                     </div>
                     <div class="stat-item">
-                        <span class="stat-value">Fast</span>
-                        <span class="stat-label">Predictions</span>
+                        <span class="stat-value">0</span>
+                        <span class="stat-label">Waste</span>
                     </div>
                 </div>
             </div>
         </header>
 
-        <!-- Main Content -->
-        <div class="main-content">
-            <!-- Input Form -->
-            <div class="card glass-card">
-                <div class="card-header">
-                    <h2 class="card-title">📋 Prediction Parameters</h2>
-                    <p class="card-subtitle">Enter your data to get AI-powered predictions</p>
-                </div>
+        <!-- ── Tab Navigation ─────────────────────────────── -->
+        <nav class="tab-nav" role="tablist">
+            <button class="tab-btn active" id="tab-predict-btn" onclick="switchTab('predict')" role="tab">
+                🎯 Meal Demand Predictor
+            </button>
+            <button class="tab-btn" id="tab-recommend-btn" onclick="switchTab('recommend')" role="tab">
+                🥘 Dish Recommender
+            </button>
+        </nav>
 
-                <form id="predictionForm">
-                    <!-- Facility Type Selection -->
-                    <div class="form-section">
-                        <h3><span class="section-icon">🏢</span> Facility Type</h3>
-                        <div class="facility-selector">
-                            <label class="facility-option">
-                                <input type="radio" name="facility_type" value="hostel" checked>
-                                <span class="facility-card">
-                                    <span class="facility-icon">🏠</span>
-                                    <span class="facility-name">Hostel</span>
-                                    <span class="facility-desc">Student accommodation</span>
-                                </span>
-                            </label>
-                            <label class="facility-option">
-                                <input type="radio" name="facility_type" value="restaurant">
-                                <span class="facility-card">
-                                    <span class="facility-icon">🍴</span>
-                                    <span class="facility-name">Restaurant</span>
-                                    <span class="facility-desc">Dining establishment</span>
-                                </span>
-                            </label>
-                        </div>
+        <!-- ════════════════════════════════════════════════ -->
+        <!--  TAB 1 — MEAL DEMAND PREDICTION                 -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div id="tab-predict" class="tab-section active">
+            <div class="main-content">
+                <!-- Input Form -->
+                <div class="card glass-card">
+                    <div class="card-header">
+                        <h2 class="card-title">📋 Prediction Parameters</h2>
+                        <p class="card-subtitle">Enter your data to get AI-powered meal demand forecasts</p>
                     </div>
 
-                    <!-- Date and Basic Info -->
-                    <div class="form-section">
-                        <h3><span class="section-icon">📅</span> Basic Information</h3>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="date">Date</label>
-                                <input type="date" id="date" name="date" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="day_of_week">Day of Week</label>
-                                <select id="day_of_week" name="day_of_week" required>
-                                    <option value="0">Monday</option>
-                                    <option value="1">Tuesday</option>
-                                    <option value="2">Wednesday</option>
-                                    <option value="3" selected>Thursday</option>
-                                    <option value="4">Friday</option>
-                                    <option value="5">Saturday</option>
-                                    <option value="6">Sunday</option>
-                                </select>
+                    <form id="predictionForm">
+                        <!-- Facility Type -->
+                        <div class="form-section">
+                            <h3><span class="section-icon">🏢</span> Facility Type</h3>
+                            <div class="facility-selector">
+                                <label class="facility-option">
+                                    <input type="radio" name="facility_type" value="hostel" checked>
+                                    <span class="facility-card">
+                                        <span class="facility-icon">🏠</span>
+                                        <span class="facility-name">Hostel</span>
+                                        <span class="facility-desc">Student accommodation</span>
+                                    </span>
+                                </label>
+                                <label class="facility-option">
+                                    <input type="radio" name="facility_type" value="restaurant">
+                                    <span class="facility-card">
+                                        <span class="facility-icon">🍴</span>
+                                        <span class="facility-name">Restaurant</span>
+                                        <span class="facility-desc">Dining establishment</span>
+                                    </span>
+                                </label>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Facility Information -->
-                    <div class="form-section">
-                        <h3><span class="section-icon">📊</span> <span id="facilityTypeLabel">Facility</span> Metrics
-                        </h3>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="occupancy">Occupancy Rate</label>
-                                <div class="slider-container">
-                                    <input type="range" id="occupancy" name="occupancy" min="0" max="100" value="85"
-                                        class="slider">
-                                    <div class="slider-value">
-                                        <span id="occupancy-value">85</span>%
-                                    </div>
+                        <!-- Basic Info -->
+                        <div class="form-section">
+                            <h3><span class="section-icon">📅</span> Basic Information</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="date">Date</label>
+                                    <input type="date" id="date" name="date" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="day_of_week">Day of Week</label>
+                                    <select id="day_of_week" name="day_of_week" required>
+                                        <option value="0">Monday</option>
+                                        <option value="1">Tuesday</option>
+                                        <option value="2">Wednesday</option>
+                                        <option value="3" selected>Thursday</option>
+                                        <option value="4">Friday</option>
+                                        <option value="5">Saturday</option>
+                                        <option value="6">Sunday</option>
+                                    </select>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="temperature">Temperature (°C)</label>
-                                <input type="number" id="temperature" name="temperature" min="15" max="40" step="0.1"
-                                    value="26" required>
+                        </div>
+
+                        <!-- Facility Metrics -->
+                        <div class="form-section">
+                            <h3><span class="section-icon">📊</span> <span id="facilityTypeLabel">Facility</span>
+                                Metrics</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="occupancy">Occupancy Rate</label>
+                                    <div class="slider-container">
+                                        <input type="range" id="occupancy" name="occupancy" min="0" max="100" value="85"
+                                            class="slider">
+                                        <div class="slider-value"><span id="occupancy-value">85</span>%</div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="temperature">Temperature (°C)</label>
+                                    <input type="number" id="temperature" name="temperature" min="15" max="40"
+                                        step="0.1" value="26" required>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Flags -->
-                    <div class="form-section">
-                        <h3><span class="section-icon">🚩</span> Special Conditions</h3>
-                        <div class="checkbox-grid">
-                            <label class="checkbox-card">
-                                <input type="checkbox" id="is_weekend" name="is_weekend">
-                                <span class="checkbox-content">
-                                    <span class="checkbox-icon">🌴</span>
-                                    <span class="checkbox-text">Weekend</span>
-                                </span>
-                            </label>
-                            <label class="checkbox-card">
-                                <input type="checkbox" id="is_holiday" name="is_holiday">
-                                <span class="checkbox-content">
-                                    <span class="checkbox-icon">🎉</span>
-                                    <span class="checkbox-text">Holiday</span>
-                                </span>
-                            </label>
-                            <label class="checkbox-card">
-                                <input type="checkbox" id="exam_period" name="exam_period" checked>
-                                <span class="checkbox-content">
-                                    <span class="checkbox-icon">📚</span>
-                                    <span class="checkbox-text">Exam Period</span>
-                                </span>
-                            </label>
-                            <label class="checkbox-card">
-                                <input type="checkbox" id="event_flag" name="event_flag">
-                                <span class="checkbox-content">
-                                    <span class="checkbox-icon">🎊</span>
-                                    <span class="checkbox-text">Special Event</span>
-                                </span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <!-- Historical Data -->
-                    <div class="form-section">
-                        <h3><span class="section-icon">📈</span> Historical Data</h3>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="prev_day_meals">Previous Day Meals</label>
-                                <input type="number" id="prev_day_meals" name="prev_day_meals" min="0" value="450"
-                                    required>
-                            </div>
-                            <div class="form-group">
-                                <label for="prev_7day_avg">7-Day Average</label>
-                                <input type="number" id="prev_7day_avg" name="prev_7day_avg" min="0" value="445"
-                                    required>
-                            </div>
-                            <div class="form-group">
-                                <label for="meals_prepared">Meals Prepared</label>
-                                <input type="number" id="meals_prepared" name="meals_prepared" min="0" value="480"
-                                    required>
+                        <!-- Special Conditions -->
+                        <div class="form-section">
+                            <h3><span class="section-icon">🚩</span> Special Conditions</h3>
+                            <div class="checkbox-grid">
+                                <label class="checkbox-card">
+                                    <input type="checkbox" id="is_weekend" name="is_weekend">
+                                    <span class="checkbox-content"><span class="checkbox-icon">🌴</span><span
+                                            class="checkbox-text">Weekend</span></span>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="checkbox" id="is_holiday" name="is_holiday">
+                                    <span class="checkbox-content"><span class="checkbox-icon">🎉</span><span
+                                            class="checkbox-text">Holiday</span></span>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="checkbox" id="exam_period" name="exam_period" checked>
+                                    <span class="checkbox-content"><span class="checkbox-icon">📚</span><span
+                                            class="checkbox-text">Exam Period</span></span>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="checkbox" id="event_flag" name="event_flag">
+                                    <span class="checkbox-content"><span class="checkbox-icon">🎊</span><span
+                                            class="checkbox-text">Special Event</span></span>
+                                </label>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Weather and Menu -->
-                    <div class="form-section">
-                        <h3><span class="section-icon">🌤️</span> Weather & Menu</h3>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="weather">Weather</label>
-                                <select id="weather" name="weather" required>
-                                    <option value="clear" selected>☀️ Clear</option>
-                                    <option value="rainy">🌧️ Rainy</option>
-                                    <option value="cloudy">☁️ Cloudy</option>
-                                    <option value="sunny">🌞 Sunny</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="menu_type">Menu Type</label>
-                                <select id="menu_type" name="menu_type" required>
-                                    <option value="standard_veg" selected>🥗 Standard Veg</option>
-                                    <option value="standard_non_veg">🍗 Standard Non-Veg</option>
-                                    <option value="special">⭐ Special</option>
-                                </select>
+                        <!-- Historical Data -->
+                        <div class="form-section">
+                            <h3><span class="section-icon">📈</span> Historical Data</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="prev_day_meals">Previous Day Meals</label>
+                                    <input type="number" id="prev_day_meals" name="prev_day_meals" min="0" value="450"
+                                        required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="prev_7day_avg">7-Day Average</label>
+                                    <input type="number" id="prev_7day_avg" name="prev_7day_avg" min="0" value="445"
+                                        required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="meals_prepared">Meals Prepared</label>
+                                    <input type="number" id="meals_prepared" name="meals_prepared" min="0" value="480"
+                                        required>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Submit Button -->
-                    <button type="submit" class="btn-primary" id="predictBtn">
-                        <span class="btn-icon">🎯</span>
-                        <span class="btn-text">Predict Meals</span>
-                        <span class="btn-loader" style="display: none;">
-                            <span class="spinner"></span>
-                            Predicting...
-                        </span>
-                    </button>
-                </form>
-            </div>
+                        <!-- Weather & Menu -->
+                        <div class="form-section">
+                            <h3><span class="section-icon">🌤️</span> Weather &amp; Menu</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="weather">Weather</label>
+                                    <select id="weather" name="weather" required>
+                                        <option value="clear" selected>☀️ Clear</option>
+                                        <option value="rainy">🌧️ Rainy</option>
+                                        <option value="cloudy">☁️ Cloudy</option>
+                                        <option value="sunny">🌞 Sunny</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="menu_type">Menu Type</label>
+                                    <select id="menu_type" name="menu_type" required>
+                                        <option value="standard_veg" selected>🥗 Standard Veg</option>
+                                        <option value="standard_non_veg">🍗 Standard Non-Veg</option>
+                                        <option value="special">⭐ Special</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
 
-            <!-- Results -->
-            <div class="card glass-card result-card" id="resultCard" style="display: none;">
-                <div class="card-header">
-                    <h2 class="card-title">🎯 Prediction Result</h2>
+                        <button type="submit" class="btn-primary" id="predictBtn">
+                            <span class="btn-icon">🎯</span>
+                            <span class="btn-text">Predict Meals</span>
+                            <span class="btn-loader" style="display:none;">
+                                <span class="spinner"></span> Predicting...
+                            </span>
+                        </button>
+                    </form>
                 </div>
 
-                <div class="prediction-result">
-                    <div class="prediction-badge">AI Prediction</div>
-                    <div class="prediction-value">
-                        <span class="prediction-number" id="predictionValue">0</span>
-                        <span class="prediction-unit">meals</span>
+                <!-- Prediction Result -->
+                <div class="card glass-card result-card" id="resultCard" style="display:none;">
+                    <div class="card-header">
+                        <h2 class="card-title">🎯 Prediction Result</h2>
                     </div>
-                    <div class="prediction-info">
-                        <div class="info-item">
-                            <span class="info-icon">🏢</span>
-                            <span class="info-label">Facility:</span>
-                            <span class="info-value" id="facilityTypeDisplay">Hostel</span>
+                    <div class="prediction-result">
+                        <div class="prediction-badge">AI Prediction</div>
+                        <div class="prediction-value">
+                            <span class="prediction-number" id="predictionValue">0</span>
+                            <span class="prediction-unit">meals</span>
                         </div>
-                        <div class="info-item">
-                            <span class="info-icon">✓</span>
-                            <span class="info-label">Confidence:</span>
-                            <span class="info-value">High</span>
+                        <div class="prediction-info">
+                            <div class="info-item">
+                                <span class="info-icon">🏢</span>
+                                <span class="info-label">Facility:</span>
+                                <span class="info-value" id="facilityTypeDisplay">Hostel</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-icon">✓</span>
+                                <span class="info-label">Confidence:</span>
+                                <span class="info-value">High</span>
+                            </div>
+                        </div>
+                        <!-- Quick-link to recommender -->
+                        <div style="margin-top:1.5rem;text-align:center;">
+                            <button onclick="switchTab('recommend')" style="
+                                background:linear-gradient(135deg,rgba(99,102,241,.2),rgba(139,92,246,.2));
+                                border:1px solid rgba(99,102,241,.4);color:#a5b4fc;
+                                padding:.55rem 1.2rem;border-radius:10px;cursor:pointer;
+                                font-size:.88rem;font-weight:600;transition:all .2s;">
+                                🥘 Go to Dish Recommender →
+                            </button>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!--  TAB 2 — DISH RECOMMENDER                       -->
+        <!-- ════════════════════════════════════════════════ -->
+        <div id="tab-recommend" class="tab-section">
+            <div class="main-content">
+                <div class="card glass-card">
+                    <div class="card-header">
+                        <h2 class="card-title">🥘 Dish Recommender from Inventory</h2>
+                        <p class="card-subtitle">Enter your kitchen inventory — AI ranks the best dishes to minimise
+                            food waste &amp; match demand</p>
+                    </div>
+
+                    <form id="recommenderForm">
+
+                        <!-- Inventory Input -->
+                        <div class="form-section">
+                            <h3><span class="section-icon">📦</span> Kitchen Inventory</h3>
+                            <p
+                                style="font-size:.85rem;color:var(--text-secondary,rgba(255,255,255,.5));margin-bottom:.75rem;">
+                                One ingredient per line &nbsp;·&nbsp; format: <code
+                                    style="background:rgba(255,255,255,.08);padding:.1em .4em;border-radius:5px;">ingredient: quantity_g</code>
+                            </p>
+                            <textarea id="inventoryInput" rows="9"
+                                placeholder="rice: 50&#10;potato: 20&#10;onion: 10&#10;tomato: 15&#10;oil: 5&#10;paneer: 8&#10;lentils: 30&#10;garlic: 5&#10;ginger: 5"
+                                required></textarea>
+                        </div>
+
+                        <!-- Options -->
+                        <div class="form-section">
+                            <h3><span class="section-icon">⚙️</span> Recommendation Options</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="rec_predicted_meals">Expected Meals Today</label>
+                                    <input type="number" id="rec_predicted_meals" value="200" min="1" max="9999"
+                                        required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="rec_menu_type">Menu Preference</label>
+                                    <select id="rec_menu_type">
+                                        <option value="any">🍽️ Any</option>
+                                        <option value="veg" selected>🥗 Veg Only</option>
+                                        <option value="non-veg">🍗 Non-Veg</option>
+                                        <option value="vegan">🌱 Vegan</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="rec_top_n">Suggestions</label>
+                                    <select id="rec_top_n">
+                                        <option value="3">Top 3</option>
+                                        <option value="5" selected>Top 5</option>
+                                        <option value="8">Top 8</option>
+                                        <option value="10">Top 10</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Allergen Filters -->
+                        <div class="form-section">
+                            <h3><span class="section-icon">⚠️</span> Allergen Exclusions
+                                <span style="font-weight:400;font-size:.8rem;opacity:.6;">(optional)</span>
+                            </h3>
+                            <div class="checkbox-grid">
+                                <label class="checkbox-card">
+                                    <input type="checkbox" id="alg_gluten" value="gluten">
+                                    <span class="checkbox-content"><span class="checkbox-icon">🌾</span><span
+                                            class="checkbox-text">Gluten</span></span>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="checkbox" id="alg_dairy" value="dairy">
+                                    <span class="checkbox-content"><span class="checkbox-icon">🥛</span><span
+                                            class="checkbox-text">Dairy</span></span>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="checkbox" id="alg_nuts" value="nuts">
+                                    <span class="checkbox-content"><span class="checkbox-icon">🥜</span><span
+                                            class="checkbox-text">Nuts</span></span>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="checkbox" id="alg_eggs" value="eggs">
+                                    <span class="checkbox-content"><span class="checkbox-icon">🥚</span><span
+                                            class="checkbox-text">Eggs</span></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-primary" id="recommendBtn">
+                            <span class="btn-icon">🥘</span>
+                            <span class="btn-text">Get Dish Recommendations</span>
+                            <span class="btn-loader" style="display:none;">
+                                <span class="spinner"></span> Analysing inventory...
+                            </span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Recommendation Results -->
+                <div class="card glass-card" id="recResultCard" style="display:none;">
+                    <div class="card-header">
+                        <h2 class="card-title">🏆 Recommended Dishes</h2>
+                        <p class="card-subtitle" id="recResultSubtitle"></p>
+                    </div>
+                    <div id="recResultList"></div>
                 </div>
             </div>
         </div>

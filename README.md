@@ -1,68 +1,109 @@
-# Food Waste Prediction System
+# 🍽️ Smart Food Waste Prediction System
 
-A production-ready machine learning system for predicting daily food waste in hostel cafeterias.
+> **AI-powered meal demand forecasting + dish recommendation engine for hostels & restaurants.**  
+> Minimise food waste, match inventory to demand, and get intelligent dish suggestions — all from one web interface.
 
-## � Live Demo
-Experience the application live: [**Food Waste Prediction System**](https://food-waste-prediction-rakh.onrender.com)
+---
 
-## �📁 Project Structure
+## 🌐 Live Demo
+
+**[food-waste-prediction-rakh.onrender.com](https://food-waste-prediction-rakh.onrender.com)**
+
+---
+
+## ✨ What It Does
+
+| Feature | Description |
+|---|---|
+| 🎯 **Meal Demand Predictor** | Forecasts exact meals served for any day using XGBoost / Random Forest / Linear Regression |
+| 🥘 **Dish Recommender** | Recommends dishes from kitchen inventory to maximise usage & minimise waste |
+| 🔍 **SHAP Explainability** | Plain-language + waterfall-plot explanations for every prediction |
+| 🌐 **Web Interface** | Beautiful two-tab Flask UI — no code required |
+
+---
+
+## 📁 Project Structure
 
 ```
 reckon/
-├── config.py                 # Configuration settings
-├── requirements.txt          # Python dependencies
-├── README.md                # This file
+├── app.py                          # Flask web app (predict + recommend API)
+├── config.py                       # Central configuration
+├── requirements.txt
+├── Dockerfile / DEPLOYMENT.md
 │
-├── src/                     # Source code
-│   ├── utils.py            # Custom transformers and utilities
-│   ├── preprocess.py       # Data preprocessing
-│   ├── train_model.py      # Model training
-│   ├── predict.py          # Prediction/inference
-│   └── explain.py          # SHAP explainability
+├── src/
+│   ├── train_model.py              # Train food-waste prediction model
+│   ├── predict.py                  # Meal demand inference
+│   ├── preprocess.py               # Data loading & feature engineering
+│   ├── explain.py                  # SHAP explainability
+│   ├── utils.py                    # Custom sklearn transformers
+│   ├── dish_dataset.py             # Recipe dataset loader & feature builder
+│   ├── inventory.py                # Inventory parser, match scorer, expiry risk
+│   ├── recommend.py                # Hybrid dish recommendation engine + SHAP
+│   └── train_recommender.py        # Train dish recommender model (CLI)
 │
-├── data/                    # Data files
-│   └── food_waste_prediction_large_dataset_10y.csv
+├── data/
+│   ├── food_waste_prediction_large_dataset_10y.csv
+│   ├── dishes_dataset.csv          # 74-dish recipe dataset (auto-generated)
+│   └── ingredient_nutrition.csv    # Nutrition + shelf-life table (auto-generated)
 │
-├── models/                  # Saved models
-│   └── food_waste_model.pkl
+├── models/
+│   ├── food_waste_model.pkl        # Trained prediction model
+│   └── dish_recommender_model.pkl  # Trained XGBoost ranker
 │
-└── visualizations/          # Generated plots
-    ├── model_performance_*.png
-    └── shap_explanation_*.png
+├── static/css/style.css
+├── static/js/app.js
+└── templates/index.html
 ```
+
+---
 
 ## 🚀 Quick Start
 
-### 1. Installation
+### 1. Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2. Train Model
+### 2. Train the meal demand model
 
 ```bash
 python src/train_model.py
 ```
 
-This will:
-- Load and preprocess data
-- Train 3 models (Linear Regression, Random Forest, XGBoost)
-- Compare performance and select the best
-- Save the best model to `models/food_waste_model.pkl`
+Trains Linear Regression, Random Forest & XGBoost, auto-selects the best, saves to `models/food_waste_model.pkl`.
 
-### 3. Make Predictions
+### 3. Train the dish recommender
+
+```bash
+python src/train_recommender.py
+```
+
+Auto-generates the recipe & nutrition datasets if missing, trains an XGBoost ranker, saves to `models/dish_recommender_model.pkl`.
+
+### 4. Run the web app
+
+```bash
+python app.py
+```
+
+Open **[http://localhost:5000](http://localhost:5000)** in your browser.
+
+---
+
+## 🎯 Tab 1 — Meal Demand Predictor
+
+Enter daily parameters and get an instant AI forecast:
 
 ```python
 from src.predict import load_model, predict_meals
 
-# Load trained model
 model_artifacts = load_model()
 
-# Prepare input
 input_data = {
     'date': '2026-03-15',
-    'hostel_occupancy_rate': 0.85,
+    'occupancy_rate': 0.85,
     'temperature_c': 28.5,
     'is_weekend': 0,
     'is_holiday': 0,
@@ -73,189 +114,183 @@ input_data = {
     'meals_prepared': 500,
     'weather': 'clear',
     'menu_type': 'standard_veg',
+    'facility_type': 'hostel',   # or 'restaurant'
     'day_of_week': 5,
     'meals_served': 450
 }
 
-# Predict
 prediction = predict_meals(input_data, model_artifacts)
 print(f"Predicted meals: {prediction:.0f}")
 ```
 
-### 4. Explain Predictions
+### SHAP Explanation
 
 ```python
-from src.explain import load_model, explain_prediction
+from src.explain import explain_prediction
 
-# Load model
-model_artifacts = load_model()
-
-# Explain prediction
 explanation = explain_prediction(input_data, model_artifacts, top_n=10)
 ```
 
+---
 
-## 🌍 Deployment
+## 🥘 Tab 2 — Dish Recommender from Inventory
 
-For detailed instructions on deploying this application to Render (recommended), please refer to [DEPLOYMENT.md](DEPLOYMENT.md).
-
-## 📊 Features
-
-### Data Preprocessing
-- **Date Features**: Day of week, month, cyclical encoding
-- **Lag Features**: 1-day, 7-day, 14-day lags
-- **Rolling Statistics**: 7-day and 14-day means, std, min, max
-- **Trend Features**: 7-day and 14-day trends, percentage changes
-- **Interaction Features**: Weekend×occupancy, exam×occupancy, etc.
-
-### Model Training
-- **Multiple Models**: Linear Regression, Random Forest, XGBoost
-- **Automatic Selection**: Best model chosen based on validation MAE
-- **Comprehensive Metrics**: MAE, RMSE, R² scores
-
-### Explainability
-- **SHAP Values**: Feature contribution analysis
-- **Simple Explanations**: Plain language interpretations
-- **Waterfall Plots**: Visual feature importance
-
-## 📝 Module Documentation
-
-### config.py
-Central configuration for:
-- File paths
-- Model hyperparameters
-- Feature lists
-- Visualization settings
-
-### src/utils.py
-Custom transformers:
-- `DateFeatureExtractor`: Extract date-based features
-- `AdvancedFeatureEngineer`: Create lag, rolling, and interaction features
-- `DataFrameSelector`: Select specific columns
-
-### src/preprocess.py
-Data preprocessing functions:
-- `load_data()`: Load CSV dataset
-- `explore_data()`: Display statistics
-- `preprocess_data()`: Apply feature engineering
-- `split_data()`: Time-based train/test split
-- `create_preprocessing_pipeline()`: Build sklearn pipeline
-
-### src/train_model.py
-Model training functions:
-- `train_models()`: Train and compare multiple models
-- `evaluate_model()`: Calculate performance metrics
-- `save_model()`: Save model and artifacts
-
-### src/predict.py
-Prediction functions:
-- `load_model()`: Load trained model
-- `predict_meals()`: Predict for single day
-- `predict_batch()`: Predict for multiple days
-
-### src/explain.py
-Explainability functions:
-- `explain_prediction()`: SHAP-based explanation
-- `get_feature_explanation()`: Generate simple explanations
-
-## 🎯 Model Performance
-
-Expected performance (varies by data):
-
-| Model | MAE | RMSE | R² |
-|-------|-----|------|-----|
-| **XGBoost** | 15-25 | 20-30 | 0.92-0.96 |
-| Random Forest | 18-30 | 24-35 | 0.88-0.94 |
-| Linear Regression | 40-60 | 50-75 | 0.65-0.80 |
-
-## 🔧 Configuration
-
-Edit `config.py` to customize:
+Given what's in the kitchen, rank the best dishes to cook:
 
 ```python
-# Model parameters
-XGBOOST_PARAMS = {
-    'n_estimators': 200,
-    'max_depth': 6,
-    'learning_rate': 0.1,
-    ...
+from src.recommend import recommend_dishes
+
+inventory = {
+    "rice": 50,      # grams
+    "potato": 20,
+    "onion": 10,
+    "tomato": 15,
+    "oil": 5,
+    "paneer": 8,
+    "lentils": 30,
+    "garlic": 5
 }
 
-# Data split
-TEST_SIZE = 0.2
-VALIDATION_SIZE = 0.2
-
-# Features
-NUMERICAL_FEATURES = [...]
-CATEGORICAL_FEATURES = [...]
+results = recommend_dishes(
+    inventory=inventory,
+    predicted_meals=200,          # from Tab 1 output or manual entry
+    menu_type='veg',              # 'veg' | 'non-veg' | 'vegan' | 'any'
+    top_n=5,
+    allergens=['nuts'],           # optional exclusion list
+    days_until_expiry={'paneer': 2}  # optional — boosts near-expiry items
+)
 ```
 
-## 📈 Example Workflow
+Each result contains:
 
 ```python
-# 1. Train model
-from src.train_model import main as train_main
-train_main()
-
-# 2. Load and predict
-from src.predict import load_model, predict_meals
-model_artifacts = load_model()
-prediction = predict_meals(input_data, model_artifacts)
-
-# 3. Explain prediction
-from src.explain import explain_prediction
-explanation = explain_prediction(input_data, model_artifacts)
+{
+    "dish_name": "Dal Tadka",
+    "inventory_usage_score": 0.81,   # fraction of ingredients available
+    "waste_reduction_score": 0.37,   # urgency of near-expiry items used
+    "estimated_servings": 12,
+    "confidence_score": 0.78,        # ML ranker score
+    "menu_type": "veg",
+    "cuisine": "indian",
+    "calories_per_serving": 230,
+    "missing_ingredients": ["coriander"],
+    "prep_time_min": 40
+}
 ```
+
+### SHAP Explanation for a Dish
+
+```python
+from src.recommend import load_recommender, explain_dish_ranking
+
+artifacts = load_recommender()
+explain_dish_ranking("Dal Tadka", artifacts)
+```
+
+---
+
+## 📊 Model Performance
+
+| Model | MAE | RMSE | R² |
+|---|---|---|---|
+| **XGBoost** *(auto-selected)* | 15–25 | 20–30 | 0.92–0.96 |
+| Random Forest | 18–30 | 24–35 | 0.88–0.94 |
+| Linear Regression | 40–60 | 50–75 | 0.65–0.80 |
+
+---
+
+## ⚙️ Configuration (`config.py`)
+
+| Setting | Default | Purpose |
+|---|---|---|
+| `MIN_INGREDIENT_MATCH` | `0.40` | Min fraction of dish ingredients required |
+| `RECOMMENDER_TOP_N` | `5` | Default recommendations returned |
+| `XGBOOST_RANKER_PARAMS` | see file | Ranker hyperparameters |
+| `ALLERGEN_GROUPS` | gluten/dairy/nuts/eggs/soy | Ingredient exclusion groups |
+| `MENU_TYPES` | veg/non-veg/vegan/any | Valid menu filter options |
+
+---
+
+## 🔌 API Endpoints
+
+### `POST /predict`
+
+```json
+{
+  "date": "2026-03-15",
+  "occupancy": 85,
+  "temperature": 26,
+  "is_weekend": "false",
+  "is_holiday": "false",
+  "exam_period": "true",
+  "event_flag": "false",
+  "prev_day_meals": 450,
+  "prev_7day_avg": 445,
+  "meals_prepared": 480,
+  "weather": "clear",
+  "menu_type": "standard_veg",
+  "facility_type": "hostel",
+  "day_of_week": 3
+}
+```
+
+**Response:** `{ "success": true, "prediction": 463 }`
+
+---
+
+### `POST /recommend`
+
+```json
+{
+  "inventory": { "rice": 50, "potato": 20, "paneer": 8 },
+  "predicted_meals": 200,
+  "menu_type": "veg",
+  "top_n": 5,
+  "allergens": []
+}
+```
+
+**Response:** `{ "success": true, "recommendations": [ ... ] }`
+
+---
 
 ## 🐛 Troubleshooting
 
-**Import errors:**
-```bash
-# Ensure you're in the project root directory
-cd /path/to/reckon
-python src/train_model.py
-```
+| Problem | Fix |
+|---|---|
+| `FileNotFoundError: food_waste_model.pkl` | Run `python src/train_model.py` |
+| `FileNotFoundError: dish_recommender_model.pkl` | Run `python src/train_recommender.py` |
+| Import errors | Run from project root: `python app.py` |
+| Empty recommendations | Lower `MIN_INGREDIENT_MATCH` in `config.py` or switch menu type to `any` |
 
-**Missing data:**
-```bash
-# Move data file to data/ directory
-mv food_waste_prediction_large_dataset_10y.csv data/
-```
-
-**Model not found:**
-```bash
-# Train model first
-python src/train_model.py
-```
+---
 
 ## 📦 Dependencies
 
-- pandas >= 2.0.0
-- numpy >= 1.24.0
-- scikit-learn >= 1.3.0
-- xgboost >= 2.0.0
-- matplotlib >= 3.7.0
-- shap >= 0.43.0
-- joblib >= 1.3.0
+```
+pandas==2.1.4        numpy==1.26.3        scikit-learn==1.3.2
+xgboost==2.0.3       shap==0.44.1         matplotlib==3.8.2
+joblib==1.3.2        flask==3.0.3         gunicorn==21.2.0
+```
 
-## 🎓 Key Concepts
+---
 
-**Time-Series Split**: Data is split chronologically (no shuffling) to prevent data leakage.
+## 🌍 Deployment
 
-**Feature Engineering**: Advanced features capture temporal patterns and interactions.
+See [DEPLOYMENT.md](DEPLOYMENT.md) for Render deployment instructions.
 
-**Model Selection**: Multiple models are trained and the best is automatically selected.
+```bash
+# Docker
+docker build -t food-waste-system .
+docker run -p 5000:5000 food-waste-system
+```
 
-**Explainability**: SHAP values show which features drive each prediction.
+---
 
 ## 📄 License
 
 MIT License
 
-## 👥 Authors
-
-Food Waste Prediction System Team
-
 ---
 
-**Built with ❤️ for sustainable food management**
+**Built with ❤️ for sustainable, intelligent food management**

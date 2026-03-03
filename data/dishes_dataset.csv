@@ -1,0 +1,75 @@
+dish_name,ingredients,quantities_g,cuisine,menu_type,calories,prep_time_min,servings
+Aloo Gobi,"potato,cauliflower,onion,tomato,oil,turmeric,cumin,coriander","200,200,100,80,20,3,5,5",indian,veg,210,30,4
+Palak Paneer,"spinach,paneer,onion,tomato,cream,garlic,ginger,oil,turmeric","300,200,100,80,30,10,10,20,3",indian,veg,280,35,4
+Dal Tadka,"lentils,onion,tomato,garlic,ginger,oil,turmeric,cumin,coriander","200,100,80,10,10,20,3,5,5",indian,veg,230,40,6
+Vegetable Biryani,"rice,potato,carrot,peas,onion,tomato,oil,yogurt,garam_masala","300,100,80,60,120,80,30,60,10",indian,veg,350,60,6
+Chana Masala,"chickpea,onion,tomato,garlic,ginger,oil,turmeric,cumin,coriander","250,120,100,15,15,25,3,5,5",indian,veg,260,45,4
+Paneer Butter Masala,"paneer,butter,cream,onion,tomato,garlic,ginger,oil,garam_masala","250,30,40,100,120,15,15,20,8",indian,veg,380,40,4
+Aloo Paratha,"wheat,potato,onion,coriander,oil,butter,cumin,turmeric","250,200,60,20,15,20,5,3",indian,veg,320,35,4
+Mixed Vegetable Curry,"potato,carrot,peas,cauliflower,onion,tomato,oil,turmeric,garam_masala","150,100,80,100,100,80,25,3,8",indian,veg,200,35,4
+Rajma Chawal,"kidney_bean,rice,onion,tomato,garlic,ginger,oil,turmeric,cumin","200,300,100,100,15,15,25,3,5",indian,veg,310,50,6
+Matar Paneer,"peas,paneer,onion,tomato,cream,garlic,oil,garam_masala,turmeric","200,200,100,100,30,15,25,8,3",indian,veg,290,35,4
+Bhindi Masala,"okra,onion,tomato,oil,turmeric,cumin,coriander,amchur","300,100,80,25,3,5,5,3",indian,veg,150,25,4
+Sambar,"lentils,drumstick,tomato,onion,carrot,tamarind,oil,mustard,turmeric","150,200,100,80,80,20,20,5,3",south_indian,veg,180,45,6
+Idli Sambar,"rice,lentils,fenugreek,drumstick,tomato,oil,mustard,turmeric,salt","300,100,10,150,80,15,5,3,5",south_indian,vegan,220,60,6
+Masala Dosa,"rice,lentils,potato,onion,oil,mustard,turmeric,coriander,ginger","300,100,200,100,30,5,3,10,10",south_indian,vegan,300,50,4
+Upma,"semolina,onion,tomato,carrot,oil,mustard,turmeric,ginger,peanut","200,100,60,60,20,5,3,10,30",south_indian,vegan,250,20,4
+Poha,"flattened_rice,onion,potato,peanut,oil,mustard,turmeric,coriander,lemon","200,80,100,30,20,5,3,10,15",indian,vegan,240,15,4
+Khichdi,"rice,lentils,potato,turmeric,ghee,cumin,ginger,salt","200,100,150,3,20,5,10,5",indian,veg,280,30,4
+Methi Thepla,"wheat,fenugreek,yogurt,oil,turmeric,cumin,chili,salt","250,100,60,20,3,5,5,5",gujarati,veg,270,25,4
+Pav Bhaji,"potato,tomato,peas,onion,butter,bread,pav_bhaji_masala,coriander","300,200,100,100,40,200,15,20",indian,veg,380,35,6
+Bisi Bele Bath,"rice,lentils,vegetable,tamarind,oil,ghee,mustard,turmeric,garam_masala","200,100,200,20,20,15,5,3,8",south_indian,vegan,290,55,6
+Dum Aloo,"potato,yogurt,onion,tomato,cream,oil,garam_masala,turmeric,coriander","400,80,100,100,30,30,10,3,10",indian,veg,310,45,4
+Avial,"carrot,drumstick,yam,coconut,yogurt,turmeric,oil,mustard,curry_leaf","100,150,100,80,60,3,15,5,5",south_indian,veg,190,40,4
+Lemon Rice,"rice,lemon,peanut,oil,mustard,turmeric,curry_leaf,chili,salt","300,40,50,20,5,3,5,5,5",south_indian,vegan,320,20,4
+Curd Rice,"rice,yogurt,milk,ginger,oil,mustard,curry_leaf,pomegranate,salt","300,200,50,10,15,5,5,30,5",south_indian,veg,290,15,4
+Baingan Bharta,"eggplant,onion,tomato,garlic,oil,turmeric,coriander,cumin,chili","400,100,100,15,25,3,10,5,5",punjabi,vegan,180,40,4
+Sarson Ka Saag,"mustard_greens,spinach,onion,garlic,ginger,oil,butter,makki_atta,salt","400,100,80,15,15,20,30,50,5",punjabi,veg,200,50,4
+Chole Bhature,"chickpea,flour,yogurt,onion,tomato,oil,garam_masala,baking_soda,cumin","250,250,60,120,100,40,10,5,5",punjabi,veg,420,50,4
+Dal Makhani,"black_lentil,kidney_bean,butter,cream,tomato,onion,garlic,ginger,oil","200,50,40,30,120,100,15,15,20",punjabi,veg,340,60,6
+Aloo Matar,"potato,peas,onion,tomato,oil,turmeric,garam_masala,cumin,coriander","250,150,100,80,25,3,8,5,5",indian,vegan,220,30,4
+Gobhi Manchurian,"cauliflower,flour,onion,garlic,ginger,soy_sauce,tomato_ketchup,oil,cornflour","400,80,100,15,15,20,30,40,20",indo_chinese,vegan,280,35,4
+Chicken Curry,"chicken,onion,tomato,garlic,ginger,oil,turmeric,garam_masala,yogurt","500,150,120,20,20,30,3,10,80",indian,non-veg,380,50,4
+Butter Chicken,"chicken,butter,cream,tomato,onion,garlic,ginger,garam_masala,oil","500,40,60,150,100,20,20,10,20",punjabi,non-veg,430,55,4
+Mutton Biryani,"rice,mutton,onion,tomato,yogurt,ghee,garam_masala,saffron,oil","400,400,200,100,100,40,15,1,30",hyderabadi,non-veg,520,90,6
+Chicken Biryani,"rice,chicken,onion,tomato,yogurt,ghee,garam_masala,oil,coriander","400,400,200,100,100,40,15,30,20",hyderabadi,non-veg,480,75,6
+Fish Fry,"fish,lemon,garlic,ginger,turmeric,chili,oil,coriander,salt","500,30,15,15,3,5,40,10,5",coastal,non-veg,280,25,4
+Egg Curry,"egg,onion,tomato,garlic,ginger,oil,turmeric,garam_masala,coriander","300,150,120,15,15,25,3,8,10",indian,non-veg,320,30,4
+Keema Matar,"mutton_mince,peas,onion,tomato,garlic,ginger,oil,garam_masala,turmeric","400,150,150,120,15,15,30,10,3",indian,non-veg,400,40,4
+Prawn Masala,"prawn,onion,tomato,coconut,garlic,ginger,oil,turmeric,garam_masala","400,150,120,80,15,15,25,3,8",coastal,non-veg,310,35,4
+Chicken Tikka Masala,"chicken,yogurt,cream,tomato,onion,garlic,ginger,garam_masala,oil","500,80,40,150,120,20,20,12,30",punjabi,non-veg,450,60,4
+Mutton Rogan Josh,"mutton,yogurt,onion,garlic,ginger,oil,kashmiri_chili,garam_masala,turmeric","500,100,150,20,20,35,8,12,3",kashmiri,non-veg,470,75,4
+Egg Bhurji,"egg,onion,tomato,chili,oil,turmeric,coriander,salt,ginger","300,100,80,10,20,2,10,5,8",indian,non-veg,250,15,3
+Chicken Pulao,"rice,chicken,onion,carrot,peas,oil,garam_masala,ginger,garlic","300,350,150,80,80,30,10,15,15",indian,non-veg,420,60,5
+Fish Curry,"fish,coconut,tomato,onion,garlic,turmeric,oil,tamarind,mustard","500,100,120,150,20,3,25,20,5",coastal,non-veg,300,35,4
+Pasta Arrabiata,"pasta,tomato,garlic,olive_oil,chili,basil,salt,parmesan","300,200,20,30,5,10,5,30",italian,vegan,380,20,4
+Vegetable Fried Rice,"rice,carrot,peas,onion,garlic,soy_sauce,oil,egg,spring_onion","300,80,80,80,15,20,25,100,30",chinese,non-veg,340,20,4
+Veg Fried Rice,"rice,carrot,peas,onion,garlic,soy_sauce,oil,spring_onion,capsicum","300,80,80,80,15,20,25,30,60",chinese,vegan,300,20,4
+Noodles Stir Fry,"noodles,carrot,capsicum,onion,garlic,soy_sauce,oil,spring_onion,cabbage","250,80,80,80,15,20,25,30,80",chinese,vegan,320,20,4
+Veggie Burger,"bread,potato,onion,carrot,lettuce,tomato,cheese,butter,oil","160,200,60,60,40,60,40,20,15",american,veg,420,25,2
+Chicken Sandwich,"bread,chicken,lettuce,tomato,cheese,mayonnaise,butter,onion,mustard","160,200,40,60,40,30,20,40,10",american,non-veg,450,20,2
+Greek Salad,"tomato,cucumber,onion,olive,feta_cheese,olive_oil,oregano,lemon,salt","200,150,60,50,80,30,3,20,5",mediterranean,veg,190,10,2
+Tomato Soup,"tomato,onion,garlic,butter,cream,vegetable_stock,basil,salt,pepper","400,100,15,20,30,200,10,5,3",continental,veg,150,25,4
+Mushroom Risotto,"rice,mushroom,onion,garlic,butter,cream,parmesan,vegetable_stock,oil","300,200,100,15,30,40,40,400,15",italian,veg,390,40,4
+Vegetable Pizza,"flour,tomato,cheese,capsicum,onion,mushroom,olive,oil,yeast","300,120,150,80,80,80,50,20,5",italian,veg,450,50,4
+Quesadilla,"flour,cheese,capsicum,onion,sour_cream,tomato,oil,cumin,chili","200,100,80,60,40,80,15,5,5",mexican,veg,380,15,2
+Bean Burrito,"flour,kidney_bean,rice,cheese,tomato,onion,sour_cream,oil,cumin","160,150,100,60,80,60,40,15,5",mexican,veg,420,20,2
+Veggie Stir Fry,"broccoli,carrot,capsicum,onion,garlic,soy_sauce,oil,ginger,cornflour","200,100,100,80,15,20,25,10,10",chinese,vegan,180,15,3
+Lentil Soup,"lentils,carrot,onion,garlic,tomato,vegetable_stock,oil,cumin,turmeric","200,100,100,15,100,400,20,5,3",continental,vegan,200,35,6
+Oatmeal Porridge,"oats,milk,banana,honey,cinnamon,salt","100,250,100,20,3,2",western,veg,310,10,2
+French Toast,"bread,egg,milk,sugar,butter,cinnamon,salt,oil","160,200,100,20,20,3,2,15",western,non-veg,360,15,2
+Pancakes,"flour,egg,milk,butter,sugar,baking_powder,salt,oil","200,100,200,30,30,5,3,15",american,non-veg,380,20,3
+Hummus with Pita,"chickpea,tahini,lemon,garlic,olive_oil,bread,salt,cumin,paprika","250,60,40,15,30,200,5,3,2",middle_eastern,vegan,350,15,4
+Falafel,"chickpea,parsley,garlic,onion,cumin,coriander,flour,oil,salt","300,30,20,80,8,8,50,200,5",middle_eastern,vegan,330,30,4
+Plain Rice & Dal,"rice,lentils,turmeric,ghee,cumin,salt,water","300,150,3,15,5,5,600",indian,vegan,340,30,4
+Jeera Rice,"rice,cumin,ghee,oil,salt,bay_leaf","300,10,15,10,5,2",indian,vegan,290,20,4
+Tomato Rice,"rice,tomato,onion,oil,mustard,turmeric,curry_leaf,chili,salt","300,150,80,20,5,3,5,5,5",south_indian,vegan,300,20,4
+Pulao,"rice,carrot,peas,onion,oil,bay_leaf,clove,cumin,salt","300,80,80,100,25,2,3,5,5",indian,vegan,310,30,4
+Egg Fried Rice,"rice,egg,onion,carrot,peas,soy_sauce,oil,spring_onion,garlic","300,200,80,60,60,20,25,30,15",chinese,non-veg,350,20,4
+Chapati & Sabzi,"wheat,potato,onion,tomato,oil,turmeric,cumin,coriander,salt","250,200,100,80,20,3,5,10,5",indian,vegan,300,25,4
+Tofu Scramble,"tofu,onion,capsicum,tomato,turmeric,oil,garlic,salt,pepper","300,80,80,80,3,20,15,5,3",western,vegan,220,15,3
+Banana Smoothie Bowl,"banana,oats,almond_milk,honey,chia_seed,strawberry,blueberry,coconut_flakes","200,80,200,20,15,60,60,20",western,vegan,350,10,2
+Vegetable Soup,"carrot,potato,onion,tomato,celery,garlic,oil,salt,pepper","100,100,80,100,60,15,15,5,3",continental,vegan,120,30,4
+Mushroom Stir Fry,"mushroom,onion,garlic,soy_sauce,oil,ginger,spring_onion,chili,cornflour","300,100,15,25,25,10,30,5,10",chinese,vegan,160,15,3
+Kadai Vegetable,"capsicum,onion,tomato,paneer,oil,turmeric,coriander,garam_masala,garlic","150,100,100,150,25,3,8,8,15",indian,veg,260,30,4
+Pesarattu,"green_moong,ginger,chili,onion,oil,salt,cumin,coriander","250,15,10,80,20,5,5,10",andhra,vegan,240,20,4
