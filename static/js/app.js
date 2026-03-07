@@ -62,7 +62,6 @@ document.getElementById('predictionForm').addEventListener('submit', async funct
         event_flag: document.getElementById('event_flag').checked.toString(),
         prev_day_meals: document.getElementById('prev_day_meals').value,
         prev_7day_avg: document.getElementById('prev_7day_avg').value,
-        meals_prepared: document.getElementById('meals_prepared').value,
         weather: document.getElementById('weather').value,
         menu_type: document.getElementById('menu_type').value,
         day_of_week: document.getElementById('day_of_week').value,

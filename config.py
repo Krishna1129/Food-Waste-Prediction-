@@ -30,7 +30,6 @@ NUMERICAL_FEATURES = [
     'temperature_c',
     'prev_day_meals',
     'prev_7day_avg_meals',
-    'meals_prepared'
 ]
 
 CATEGORICAL_FEATURES = [

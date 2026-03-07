@@ -142,7 +142,6 @@ def main():
         'exam_period': 1,
         'prev_day_meals': 450,
         'prev_7day_avg_meals': 445,
-        'meals_prepared': 500,
         'weather': 'clear',
         'menu_type': 'standard_veg',
         'facility_type': 'hostel',

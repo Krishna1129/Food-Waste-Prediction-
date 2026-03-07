@@ -59,7 +59,6 @@ def predict():
             'exam_period': 1 if data.get('exam_period') == 'true' else 0,
             'prev_day_meals': int(data.get('prev_day_meals')),
             'prev_7day_avg_meals': int(data.get('prev_7day_avg')),
-            'meals_prepared': int(data.get('meals_prepared')),
             'weather': data.get('weather'),
             'menu_type': data.get('menu_type'),
             'facility_type': data.get('facility_type', 'hostel'),
